@@ -1241,9 +1241,7 @@
         }
 
         /* Parallax Effect */
-        .hero-parallax {
-            /* Removed CSS transition - GSAP handles animation timing */
-        }
+        /* .hero-parallax CSS transition removed - GSAP handles animation timing */
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -1522,7 +1520,7 @@
             }
         }
         
-        // Pause animations when in portfolio section
+        /* Pause animations when in portfolio section */
         .in-portfolio .light-orb-bg,
         .in-portfolio .abstract-blob,
         .in-portfolio .dust-dot,
@@ -3478,13 +3476,16 @@
         <div class="tabs">
             <button class="tab active" data-type="video">VIDEO / REELS</button>
             <button class="tab" data-type="design">GRAPHIC DESIGN</button>
-            <button class="tab" data-type="reviews">REVIEWS</button>
         </div>
 
         <div class="cards-grid" id="cardsGrid"></div>
         
-        <!-- Reviews Section -->
-        <div class="reviews-container" id="reviewsContainer" style="display: none;">
+    </section>
+
+    <!-- Client Reviews Section -->
+    <section class="reviews-section" id="reviewsSection" style="background: var(--black); position: relative; padding-top: 2rem;">
+        <h2 class="section-title" style="margin-bottom: 3rem; text-align: center;">CLIENT REVIEWS</h2>
+        <div class="reviews-container" id="reviewsContainer">
             <div class="reviews-grid">
                 <div class="review-card">
                     <div class="review-quote">"</div>
@@ -3502,6 +3503,16 @@
                     <div class="review-author">
                         <div class="review-name">Moosab</div>
                         <div class="review-role">Content Creator</div>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+
+                <div class="review-card" style="border-color: var(--gold);">
+                    <div class="review-quote" style="color: rgba(201, 168, 76, 0.4);">"</div>
+                    <p class="review-text">I am very happy with the final result! [Paste your new review text over here to showcase your new testimonial].</p>
+                    <div class="review-author">
+                        <div class="review-name">[NEW CLIENT]</div>
+                        <div class="review-role">[Client Role]</div>
                     </div>
                     <div class="review-stars">★★★★★</div>
                 </div>
@@ -3684,7 +3695,8 @@
             { id: "1NU549j4gZ_UNGpt-lvTk9Bhqw4z9PsIH", title: "KNOWLEDGE DROPS", type: "video", year: "2025", desc: "Educational content", thumbnail: "💡" },
             { id: "1kioTagmifOHhAw7I3AJ6Xd8GAf1WReVs", title: "INFO AESTHETICS", type: "video", year: "2024", desc: "Visual learning", thumbnail: "📊" },
             
-            // Graphic Design - Posters
+            // Graphic Design - Presentations
+            { id: "1gyCEOp542iiyQNVJm3uawNA4ObVDLnNu", title: "AMAZON LISTING PPT", type: "design", year: "2026", desc: "Product presentation", thumbnail: "📊" },
             { id: "12Cu8k-cecaaDVxQfgqBVLpsc3fAxbpJI", title: "CULTURAL POSTER", type: "design", year: "2025", desc: "Traditional meets modern", thumbnail: "🎨" },
             { id: "1SMkDU4JsA413ELElrn-lpv3huUzfUOYZ", title: "SOCIAL IMPACT", type: "design", year: "2024", desc: "Awareness campaign", thumbnail: "🌍" },
             
@@ -4012,25 +4024,9 @@
                 tab.classList.add('active');
                 currentFilter = tab.dataset.type;
                 
-                if (currentFilter === 'reviews') {
-                    // Show reviews, hide cards
-                    document.getElementById('cardsGrid').style.display = 'none';
-                    document.getElementById('reviewsContainer').style.display = 'block';
-                    
-                    // Fade in reviews
-                    setTimeout(() => {
-                        document.getElementById('reviewsContainer').style.opacity = '0';
-                        setTimeout(() => {
-                            document.getElementById('reviewsContainer').style.transition = 'opacity 0.6s ease';
-                            document.getElementById('reviewsContainer').style.opacity = '1';
-                        }, 50);
-                    }, 50);
-                } else {
-                    // Show cards, hide reviews
-                    document.getElementById('reviewsContainer').style.display = 'none';
-                    document.getElementById('cardsGrid').style.display = 'grid';
-                    renderCards(currentFilter);
-                }
+                // Show cards for the selected type
+                document.getElementById('cardsGrid').style.display = 'grid';
+                renderCards(currentFilter);
             });
         });
         
