@@ -3471,14 +3471,11 @@
         <!-- Layer 4: Film Grain Texture -->
         <div class="grain-texture"></div>
         
-        <h2 class="section-title">SELECTED WORKS</h2>
+        <h2 class="section-title">VIDEO WORKS</h2>
+        <div class="cards-grid" id="videoCardsGrid"></div>
         
-        <div class="tabs">
-            <button class="tab active" data-type="video">VIDEO / REELS</button>
-            <button class="tab" data-type="design">GRAPHIC DESIGN</button>
-        </div>
-
-        <div class="cards-grid" id="cardsGrid"></div>
+        <h2 class="section-title" style="margin-top: 6rem;">GRAPHIC DESIGN WORK</h2>
+        <div class="cards-grid" id="designCardsGrid" style="margin-bottom: 4rem;"></div>
         
     </section>
 
@@ -3695,20 +3692,21 @@
             { id: "1NU549j4gZ_UNGpt-lvTk9Bhqw4z9PsIH", title: "KNOWLEDGE DROPS", type: "video", year: "2025", desc: "Educational content", thumbnail: "💡" },
             { id: "1kioTagmifOHhAw7I3AJ6Xd8GAf1WReVs", title: "INFO AESTHETICS", type: "video", year: "2024", desc: "Visual learning", thumbnail: "📊" },
             
-            // Graphic Design - Presentations
-            { id: "1gyCEOp542iiyQNVJm3uawNA4ObVDLnNu", title: "AMAZON LISTING PPT", type: "design", year: "2026", desc: "Product presentation", thumbnail: "📊" },
-            { id: "12Cu8k-cecaaDVxQfgqBVLpsc3fAxbpJI", title: "CULTURAL POSTER", type: "design", year: "2025", desc: "Traditional meets modern", thumbnail: "🎨" },
-            { id: "1SMkDU4JsA413ELElrn-lpv3huUzfUOYZ", title: "SOCIAL IMPACT", type: "design", year: "2024", desc: "Awareness campaign", thumbnail: "🌍" },
+            // Graphic Design - Posters
+            { id: "17swUSCSA36MDP8j-QOoPox6Jig1LRsXD", title: "POSTER DESIGN 1", type: "design", year: "2026", desc: "Visual Campaign", thumbnail: "🎨" },
+            { id: "1TtezcIdl8slExalCifKWcS9UnQ7iHq--", title: "POSTER DESIGN 2", type: "design", year: "2026", desc: "Visual Campaign", thumbnail: "🎨" },
             
-            // Graphic Design - Logos
-            { id: "1W5do7AssfrKKGqMHaXaTJa4MIIb_NgvN", title: "BRAND ESSENCE", type: "design", year: "2025", desc: "Identity system", thumbnail: "🏷️" },
-            { id: "1dMGgt5xng3YlH4gkOM3YnbauAlTq5F_F", title: "CREATIVE MARK", type: "design", year: "2025", desc: "Modern branding", thumbnail: "💼" },
-            { id: "1kcQQVumkShb2IvT2mw6J08r2JR2PZfKf", title: "LOGO STUDIO", type: "design", year: "2024", desc: "Symbol collection", thumbnail: "🔖" },
-            
-            // Graphic Design - Visiting Cards
-            { id: "17swUSCSA36MDP8j-QOoPox6Jig1LRsXD", title: "BUSINESS CARD PRO", type: "design", year: "2025", desc: "Professional identity", thumbnail: "💳" },
-            { id: "1TtezcIdl8slExalCifKWcS9UnQ7iHq--", title: "VISITING CARD ELITE", type: "design", year: "2025", desc: "Premium design", thumbnail: "🎴" },
-            { id: "1uf1DFAJ6YI8hOrMVhZfS6WN0o6-1Meiz", title: "CONTACT CARD LUXE", type: "design", year: "2024", desc: "Elegant layout", thumbnail: "📇" },
+            // Graphic Design - Visiting Card
+            { id: "17swUSCSA36MDP8j-QOoPox6Jig1LRsXD", title: "VISITING CARD 1", type: "design", year: "2026", desc: "Identity System", thumbnail: "💳" },
+            { id: "1TtezcIdl8slExalCifKWcS9UnQ7iHq--", title: "VISITING CARD 2", type: "design", year: "2026", desc: "Identity System", thumbnail: "💳" },
+
+            // Graphic Design - Logo Design
+            { id: "1W5do7AssfrKKGqMHaXaTJa4MIIb_NgvN", title: "LOGO DESIGN 1", type: "design", year: "2026", desc: "Brand Mark", thumbnail: "🏷️" },
+            { id: "1dMGgt5xng3YlH4gkOM3YnbauAlTq5F_F", title: "LOGO DESIGN 2", type: "design", year: "2026", desc: "Brand Mark", thumbnail: "🏷️" },
+            { id: "1kcQQVumkShb2IvT2mw6J08r2JR2PZfKf", title: "LOGO DESIGN 3", type: "design", year: "2026", desc: "Brand Mark", thumbnail: "🏷️" },
+
+            // Graphic Design - Amazon Listing PPT
+            { id: "1gyCEOp542iiyQNVJm3uawNA4ObVDLnNu", title: "AMAZON LISTING PPT", type: "design", year: "2026", desc: "Product Presentation", thumbnail: "📊" },
         ];
 
         const DRIVE_FOLDER = "https://drive.google.com/embeddedfolderview?id=1WWVE7HcbOksSrJYPbspjyKGGS9dGQFu-#grid";
@@ -3958,10 +3956,9 @@
         // RENDER CARDS
         // ═══════════════════════════════════════════════════════════
 
-        let currentFilter = 'video';
-
-        function renderCards(filter) {
-            const grid = document.getElementById('cardsGrid');
+        function renderCards(filter, gridId) {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
             const filteredWorks = WORKS.filter(work => work.type === filter);
             
             grid.style.opacity = '0';
@@ -4017,18 +4014,7 @@
             }, 400);
         }
 
-        // Tab switching
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentFilter = tab.dataset.type;
-                
-                // Show cards for the selected type
-                document.getElementById('cardsGrid').style.display = 'grid';
-                renderCards(currentFilter);
-            });
-        });
+        // Tabs removed. Both grids render concurrently now.
         
         // ═══════════════════════════════════════════════════════════
         // MAXIMUM PERFORMANCE - DISABLE ALL EFFECTS IN PORTFOLIO
@@ -4067,8 +4053,14 @@
         }, { passive: true });
 
         // Initial render
-        renderCards(currentFilter);
-        document.getElementById('cardsGrid').classList.add('visible');
+        renderCards('video', 'videoCardsGrid');
+        renderCards('design', 'designCardsGrid');
+        
+        let vGrid = document.getElementById('videoCardsGrid');
+        if (vGrid) vGrid.classList.add('visible');
+        
+        let dGrid = document.getElementById('designCardsGrid');
+        if (dGrid) dGrid.classList.add('visible');
 
         // ═══════════════════════════════════════════════════════════
         // OPEN STREET STORIES VIDEO DIRECTLY
