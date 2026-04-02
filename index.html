@@ -14,6 +14,9 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://chandrakantpb.co.in">
 
+    <!-- Preload primary font for FOUT prevention -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
+
     <!-- Open Graph (Social Sharing) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://chandrakantpb.co.in">
@@ -550,10 +553,10 @@
         }
         .intro-corner::before { width: 2px; height: 100%; }
         .intro-corner::after  { width: 100%; height: 2px; }
-        .intro-corner.tl { top: 18vh; left: 4vw; transform-origin: top left; }
-        .intro-corner.tr { top: 18vh; right: 4vw; transform: scaleX(-1); transform-origin: top right; }
-        .intro-corner.bl { bottom: 18vh; left: 4vw; transform: scaleY(-1); transform-origin: bottom left; }
-        .intro-corner.br { bottom: 18vh; right: 4vw; transform: scale(-1); transform-origin: bottom right; }
+        .intro-corner.tl { top: 18vh; left: 4vw; transform: scale(1, 1); transform-origin: center; }
+        .intro-corner.tr { top: 18vh; right: 4vw; transform: scale(-1, 1); transform-origin: center; }
+        .intro-corner.bl { bottom: 18vh; left: 4vw; transform: scale(1, -1); transform-origin: center; }
+        .intro-corner.br { bottom: 18vh; right: 4vw; transform: scale(-1, -1); transform-origin: center; }
         
         /* Skip button */
         .skip-intro {
@@ -1252,6 +1255,7 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.1s ease-out;
+            transform: translate3d(0,0,0);
         }
         
         /* Scroll Distortion Effect */
@@ -1311,7 +1315,6 @@
             filter: blur(120px);
             opacity: 0;
             animation: orbGlowFloat 25s ease-in-out infinite;
-            will-change: transform, opacity;
         }
         
         .light-orb-bg:nth-child(1) {
@@ -1920,7 +1923,6 @@
             opacity: 0;
             transition: opacity 0.6s ease;
             contain: layout style;
-            will-change: opacity;
             position: relative;
             z-index: 2;
         }
@@ -1928,7 +1930,6 @@
         .poster-card {
             contain: layout style paint;
             transform: translateZ(0);
-            will-change: transform;
         }
         
         /* Disable hover effects - they cause lag */
@@ -1962,12 +1963,9 @@
             aspect-ratio: 2/3;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8),
-                        inset 0 0 0 1px rgba(201, 168, 76, 0.2);
+            border: 1px solid rgba(255,255,255,0.1);
             overflow: hidden;
-            border: 1px solid rgba(201, 168, 76, 0.15);
             transform: translateZ(0);
-            will-change: transform;
         }
         
         /* Animated gradient border effect */
@@ -3267,7 +3265,8 @@
              class="large-mandala-center" 
              alt="Decorative Mandala"
              loading="lazy"
-             referrerpolicy="no-referrer" />
+             decoding="async"
+             referrerpolicy="strict-origin-when-cross-origin" />
         
         <!-- Paisley patterns -->
         <div class="indian-motif paisley-motif paisley-1"></div>
@@ -3318,7 +3317,8 @@
          style="display: none;"
          id="profileImage"
          loading="lazy"
-         referrerpolicy="no-referrer">
+         decoding="async"
+         referrerpolicy="strict-origin-when-cross-origin">
 
     <!-- Cinematic Scroll Progress Bar -->
     <div class="film-progress" id="filmProgress"></div>
@@ -3437,12 +3437,42 @@
         <!-- Layer 4: Film Grain Texture -->
         <div class="grain-texture"></div>
         
+<!-- ═══ VIDEO WORKS ═══ -->
         <h2 class="section-title">VIDEO WORKS</h2>
+
+        <!-- ═══ VIDEO GALLERY PLAYER ═══ -->
+        <div id="videoGallery" style="position:relative;z-index:2;max-width:1400px;margin:0 auto 4rem;">
+            <!-- Active video frame -->
+            <div id="videoPlayerWrap" style="-webkit-overflow-scrolling:touch;border-radius:8px;overflow:hidden;background:#000;border:1px solid rgba(201,168,76,0.2);">
+                <iframe
+                    id="galleryIframe"
+                    src=""
+                    allow="autoplay; fullscreen"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    style="width:100%;height:520px;border:none;background:#000;display:block;-webkit-transform:translateZ(0);transform:translateZ(0);"
+                ></iframe>
+            </div>
+
+            <!-- Counter + controls -->
+            <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:1.5rem;">
+                <button id="galPrev" onclick="galleryPrev()" style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.1em;background:transparent;border:1px solid rgba(201,168,76,0.5);color:var(--gold);padding:.6rem 2rem;cursor:pointer;border-radius:3px;transition:all .3s ease;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='transparent'">&#8592; PREV</button>
+                <span id="galCounter" style="font-family:'Inter',sans-serif;font-size:.9rem;color:rgba(232,222,200,0.6);letter-spacing:.2em;">1 / 14</span>
+                <button id="galNext" onclick="galleryNext()" style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.1em;background:transparent;border:1px solid rgba(201,168,76,0.5);color:var(--gold);padding:.6rem 2rem;cursor:pointer;border-radius:3px;transition:all .3s ease;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='transparent'">NEXT &#8594;</button>
+            </div>
+
+            <!-- Thumbnail strip -->
+            <div id="galThumbs" style="display:flex;gap:.75rem;overflow-x:auto;padding:1.2rem 0 .5rem;scrollbar-width:thin;scrollbar-color:rgba(201,168,76,0.3) transparent;"></div>
+        </div>
+
         <div class="cards-grid" id="videoCardsGrid"></div>
-        
-        <h2 class="section-title" style="margin-top: 6rem;">GRAPHIC DESIGN WORK</h2>
-        <div class="cards-grid" id="designCardsGrid" style="margin-bottom: 4rem;"></div>
-        
+
+        <h2 class="section-title" style="margin-top:6rem;">GRAPHIC DESIGN WORK</h2>
+        <div id="designPlayerSection" style="-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);">
+            <div class="cards-grid" id="designCardsGrid" style="margin-bottom:4rem;"></div>
+        </div>
+
     </section>
 
     <!-- Client Reviews Section -->
@@ -3480,7 +3510,9 @@
         <h2 class="section-title">BROWSE THE ARCHIVE</h2>
         <p class="drive-subtitle">Every frame. Every pixel.</p>
         <div class="drive-container">
-            <iframe class="drive-iframe" id="driveIframe" frameborder="0" loading="lazy" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+            <div style="-webkit-overflow-scrolling:touch;">
+                <iframe class="drive-iframe" id="driveIframe" frameborder="0" loading="lazy" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin" style="background:#000;"></iframe>
+            </div>
         </div>
     </section>
 
@@ -3617,7 +3649,9 @@
     <div class="modal" id="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">×</button>
-            <iframe class="modal-iframe" id="modalIframe" allow="autoplay" loading="lazy" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+            <div style="-webkit-overflow-scrolling:touch;">
+                <iframe class="modal-iframe" id="modalIframe" allow="autoplay; fullscreen" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="background:#000;-webkit-transform:translateZ(0);transform:translateZ(0);"></iframe>
+            </div>
             <a class="modal-link" id="modalLink" target="_blank" rel="noopener noreferrer">OPEN IN DRIVE ↗</a>
         </div>
     </div>
@@ -3968,7 +4002,8 @@
                                         src="https://drive.google.com/thumbnail?id=${work.id}&sz=w800"
                                         alt="${work.title}"
                                         loading="lazy"
-                                        referrerpolicy="no-referrer"
+                                        decoding="async"
+                                        referrerpolicy="strict-origin-when-cross-origin"
                                         onerror="this.style.display='none'"
                                     />
                                 </div>
@@ -4036,6 +4071,97 @@
         
         let dGrid = document.getElementById('designCardsGrid');
         if (dGrid) dGrid.classList.add('visible');
+
+        // ═══════════════════════════════════════════════════════════
+        // VIDEO GALLERY PLAYER
+        // ═══════════════════════════════════════════════════════════
+
+        const VIDEO_WORKS = WORKS.filter(w => w.type === 'video');
+        let galIndex = 0;
+
+        function galLoad(index, autoplay) {
+            const work = VIDEO_WORKS[index];
+            const iframe = document.getElementById('galleryIframe');
+            const counter = document.getElementById('galCounter');
+
+            // Fade out
+            iframe.style.opacity = '0';
+            iframe.style.transition = 'opacity 0.3s ease';
+
+            setTimeout(() => {
+                // Pause current (clear src briefly then reload)
+                iframe.src = '';
+                const ap = autoplay ? '?autoplay=1' : '';
+                iframe.src = `https://drive.google.com/file/d/${work.id}/preview${ap}`;
+                iframe.style.opacity = '1';
+            }, 300);
+
+            counter.textContent = `${index + 1} / ${VIDEO_WORKS.length}`;
+
+            // Highlight active thumb
+            document.querySelectorAll('.gal-thumb').forEach((t, i) => {
+                t.style.outline = i === index
+                    ? '2px solid var(--gold)'
+                    : '2px solid transparent';
+                t.style.opacity = i === index ? '1' : '0.5';
+            });
+        }
+
+        function galleryNext() {
+            galIndex = (galIndex + 1) % VIDEO_WORKS.length;
+            galLoad(galIndex, false);
+        }
+
+        function galleryPrev() {
+            galIndex = (galIndex - 1 + VIDEO_WORKS.length) % VIDEO_WORKS.length;
+            galLoad(galIndex, false);
+        }
+
+        function galJump(index) {
+            galIndex = index;
+            galLoad(galIndex, false);
+        }
+
+        // Build thumbnail strip
+        (function buildThumbs() {
+            const strip = document.getElementById('galThumbs');
+            if (!strip) return;
+            VIDEO_WORKS.forEach((work, i) => {
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'flex:0 0 auto;cursor:pointer;transition:opacity .3s;';
+                const img = document.createElement('img');
+                img.className = 'gal-thumb';
+                img.src = `https://drive.google.com/thumbnail?id=${work.id}&sz=w200`;
+                img.alt = work.title;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.referrerPolicy = 'strict-origin-when-cross-origin';
+                img.style.cssText = 'width:120px;height:68px;object-fit:cover;border-radius:4px;display:block;transition:opacity .3s,outline .2s;outline:2px solid transparent;opacity:0.5;';
+                img.onerror = function() { this.style.display='none'; };
+                wrap.appendChild(img);
+
+                const label = document.createElement('div');
+                label.textContent = work.title;
+                label.style.cssText = 'font-family:"Inter",sans-serif;font-size:.6rem;color:rgba(232,222,200,0.6);text-align:center;margin-top:.3rem;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;';
+                wrap.appendChild(label);
+
+                wrap.onclick = () => galJump(i);
+                strip.appendChild(wrap);
+            });
+        })();
+
+        // Initialize gallery with IntersectionObserver — only load when 20% into viewport
+        (function initGallery() {
+            const galleryEl = document.getElementById('videoGallery');
+            if (!galleryEl) return;
+            const obs = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    galLoad(0, false);
+                    obs.disconnect();
+                }
+            }, { threshold: 0.1 });
+            obs.observe(galleryEl);
+        })();
 
         // ═══════════════════════════════════════════════════════════
         // OPEN STREET STORIES VIDEO DIRECTLY
@@ -4203,22 +4329,34 @@
         
         // 1. Cinematic Scroll Progress Bar — handled by the rAF-throttled listener above
         
-        // 2. Cursor Trail Particles — throttled by distance to avoid mid-scroll DOM thrashing
+        // 2. Cursor Trail Particles & Thumb Track — throttled by distance
         let particleCount = 0;
         let lastParticleX = 0, lastParticleY = 0;
-        document.addEventListener('mousemove', (e) => {
-            const dx = e.clientX - lastParticleX;
-            const dy = e.clientY - lastParticleY;
+        
+        function handleTrail(clientX, clientY) {
+            const dx = clientX - lastParticleX;
+            const dy = clientY - lastParticleY;
             if (Math.sqrt(dx*dx + dy*dy) < 30) return; // only spawn if moved 30px
-            lastParticleX = e.clientX; lastParticleY = e.clientY;
+            lastParticleX = clientX; lastParticleY = clientY;
+            
             particleCount++;
             const particle = document.createElement('div');
             particle.className = 'cursor-particle';
-            particle.style.left = e.clientX + 'px';
-            particle.style.top = e.clientY + 'px';
+            particle.style.left = clientX + 'px';
+            particle.style.top = clientY + 'px';
             document.body.appendChild(particle);
             setTimeout(() => particle.remove(), 800);
-        });
+        }
+
+        document.addEventListener('mousemove', (e) => handleTrail(e.clientX, e.clientY));
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            handleTrail(touch.clientX, touch.clientY);
+        }, { passive: true });
+        document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            handleTrail(touch.clientX, touch.clientY);
+        }, { passive: true });
         
         // DISABLE 3D Tilt completely
         // (Removed for maximum performance)
