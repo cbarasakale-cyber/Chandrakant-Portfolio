@@ -3265,7 +3265,9 @@
         <!-- Large Centered Mandala (User's Custom SVG) Behind About Section -->
         <img src="https://customer-assets.emergentagent.com/job_chandrakant-dark/artifacts/tn7e5yu2_mandala%20svg.svg" 
              class="large-mandala-center" 
-             alt="Decorative Mandala" />
+             alt="Decorative Mandala"
+             loading="lazy"
+             referrerpolicy="no-referrer" />
         
         <!-- Paisley patterns -->
         <div class="indian-motif paisley-motif paisley-1"></div>
@@ -3314,7 +3316,9 @@
          alt="Chandrakant" 
          class="profile-image"
          style="display: none;"
-         id="profileImage">
+         id="profileImage"
+         loading="lazy"
+         referrerpolicy="no-referrer">
 
     <!-- Cinematic Scroll Progress Bar -->
     <div class="film-progress" id="filmProgress"></div>
@@ -3391,12 +3395,12 @@
                 <p class="hero-subtext">Video Editor · Storyteller · Visual Creator</p>
                 
                 <p class="hero-proof">
-                    <strong>50+</strong> videos edited • <strong>3+</strong> years experience • Bangalore based
+                    <strong>150+</strong> clients served • <strong>3+</strong> years experience • Bangalore based
                 </p>
                 
                 <div class="hero-ctas">
                     <a href="#work" class="hero-btn hero-btn-primary">View My Work</a>
-                    <a href="https://wa.me/917019505592" class="hero-btn hero-btn-secondary">Work With Me</a>
+                    <a href="https://wa.me/917019505592" class="hero-btn hero-btn-secondary" rel="noopener noreferrer" target="_blank">Work With Me</a>
                 </div>
                 
                 <!-- Eye-catching Tagline Below Buttons -->
@@ -3476,7 +3480,7 @@
         <h2 class="section-title">BROWSE THE ARCHIVE</h2>
         <p class="drive-subtitle">Every frame. Every pixel.</p>
         <div class="drive-container">
-            <iframe class="drive-iframe" id="driveIframe" frameborder="0"></iframe>
+            <iframe class="drive-iframe" id="driveIframe" frameborder="0" loading="lazy" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
         </div>
     </section>
 
@@ -3592,14 +3596,16 @@
     <!-- Final CTA -->
     <section class="final-cta">
         <div class="cta-text">Let's create something people remember.</div>
-        <a href="https://wa.me/917019505592" class="cta-button">WORK WITH ME</a>
+        <a href="https://wa.me/917019505592" class="cta-button" rel="noopener noreferrer" target="_blank">WORK WITH ME</a>
     </section>
 
     <!-- Contact Section -->
     <section class="contact-section">
         <h2 class="section-title">LET'S TALK</h2>
-        <a href="mailto:cbarasakale@gmail.com" class="contact-email">cbarasakale@gmail.com</a>
-        <p class="contact-phone"><a href="tel:+917019505592" style="color: var(--cream); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--cream)'">+91 7019505592</a></p>
+        <!-- Email obfuscated via JS -->
+        <a id="contactEmailLink" href="#" class="contact-email"></a>
+        <!-- Phone obfuscated via JS -->
+        <p class="contact-phone"><a id="contactPhoneLink" href="#" style="color: var(--cream); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--cream)'"></a></p>
     </section>
 
     <!-- Footer -->
@@ -3611,8 +3617,8 @@
     <div class="modal" id="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">×</button>
-            <iframe class="modal-iframe" id="modalIframe" allow="autoplay"></iframe>
-            <a class="modal-link" id="modalLink" target="_blank">OPEN IN DRIVE ↗</a>
+            <iframe class="modal-iframe" id="modalIframe" allow="autoplay" loading="lazy" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+            <a class="modal-link" id="modalLink" target="_blank" rel="noopener noreferrer">OPEN IN DRIVE ↗</a>
         </div>
     </div>
 
@@ -3961,6 +3967,8 @@
                                         class="card-image" 
                                         src="https://drive.google.com/thumbnail?id=${work.id}&sz=w800"
                                         alt="${work.title}"
+                                        loading="lazy"
+                                        referrerpolicy="no-referrer"
                                         onerror="this.style.display='none'"
                                     />
                                 </div>
@@ -4094,6 +4102,7 @@
             // Add autoplay parameter to Drive embed
             iframe.src = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
             link.href = `https://drive.google.com/file/d/${fileId}/view`;
+            link.rel = 'noopener noreferrer';
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -4124,6 +4133,7 @@
             // Regular modal open (no autoplay, no auto-advance)
             iframe.src = `https://drive.google.com/file/d/${fileId}/preview?hd=1`;
             link.href = `https://drive.google.com/file/d/${fileId}/view`;
+            link.rel = 'noopener noreferrer';
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -4151,10 +4161,41 @@
         });
 
         // ═══════════════════════════════════════════════════════════
-        // DRIVE EMBED
+        // CONTACT OBFUSCATION (protects email & phone from scrapers)
         // ═══════════════════════════════════════════════════════════
+        (function() {
+            // Email encoded as char codes
+            var e = [99,98,97,114,97,115,97,107,97,108,101,64,103,109,97,105,108,46,99,111,109];
+            var email = e.map(function(c){return String.fromCharCode(c);}).join('');
+            var eLink = document.getElementById('contactEmailLink');
+            if (eLink) {
+                eLink.href = 'mailto:' + email;
+                eLink.textContent = email;
+            }
+            // Phone encoded as char codes
+            var p = [43,57,49,32,55,48,49,57,53,48,53,53,57,50];
+            var phone = p.map(function(c){return String.fromCharCode(c);}).join('');
+            var pLink = document.getElementById('contactPhoneLink');
+            if (pLink) {
+                pLink.href = 'tel:+91' + phone.replace(/[^0-9]/g,'').substring(2);
+                pLink.textContent = phone;
+            }
+        })();
 
-        document.getElementById('driveIframe').src = DRIVE_FOLDER;
+        // ═══════════════════════════════════════════════════════════
+        // DRIVE EMBED — lazy load via IntersectionObserver
+        // ═══════════════════════════════════════════════════════════
+        (function() {
+            var driveIframe = document.getElementById('driveIframe');
+            if (!driveIframe) return;
+            var driveObserver = new IntersectionObserver(function(entries) {
+                if (entries[0].isIntersecting) {
+                    driveIframe.src = DRIVE_FOLDER;
+                    driveObserver.disconnect();
+                }
+            }, { rootMargin: '200px' });
+            driveObserver.observe(driveIframe);
+        })();
         
         // ═══════════════════════════════════════════════════════════
         // SURPRISE ELEMENTS - MAGICAL INTERACTIONS
